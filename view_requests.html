@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Requests</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-4">
+
+    <h3 class="mb-3 text-center">All Requests</h3>
+
+    <div class="card shadow">
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Donation ID</th>
+                        <th>Requester</th>
+                        <th>Status</th>
+                        <th>Arrival</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for row in data %}
+                    <tr>
+
+                        <!-- ID -->
+                        <td>{{ row[0] }}</td>
+
+                        <!-- Donation ID -->
+                        <td>{{ row[1] }}</td>
+
+                        <!-- Requester -->
+                        <td>{{ row[2] }}</td>
+
+                        <!-- STATUS -->
+                        <td>
+                            {% if row[3] == 'Pending' %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            {% elif row[3] == 'Approved' %}
+                                <span class="badge bg-success">Approved</span>
+                            {% else %}
+                                <span class="badge bg-danger">Rejected</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- ARRIVAL STATUS -->
+                        <td>
+                            {% if row[4] == 'Not Coming' %}
+                                <span class="badge bg-secondary">Not Coming</span>
+
+                            {% elif row[4] == 'Coming' %}
+                                <span class="badge bg-info text-dark">Coming</span>
+
+                            {% elif row[4] == 'Collected' %}
+                                <span class="badge bg-success">Collected</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- ACTION COLUMN (FIXED) -->
+                        <td>
+
+                            <!-- 👑 ADMIN SIDE -->
+                            {% if session.get('role') == 'admin' %}
+
+                                {% if row[3] == 'Pending' %}
+                                    <a href="/approve/{{ row[0] }}" class="btn btn-success btn-sm">
+                                        Approve
+                                    </a>
+
+                                {% elif row[4] == 'Coming' %}
+                                    <span class="badge bg-info text-dark">
+                                        User Coming
+                                    </span>
+
+                                {% elif row[4] == 'Collected' %}
+                                    <span class="badge bg-success">
+                                        Completed
+                                    </span>
+
+                                {% else %}
+                                    <span class="text-muted">Waiting</span>
+                                {% endif %}
+
+                            {% endif %}
+
+
+                            <!-- 👤 USER SIDE -->
+                            {% if session.get('role') == 'user' %}
+
+                                <!-- STEP 1: AFTER APPROVAL -->
+                                {% if row[3] == 'Approved' and row[4] == 'Not Coming' %}
+                                    <a href="/coming/{{ row[0] }}" class="btn btn-warning btn-sm">
+                                        I am Coming
+                                    </a>
+                                {% endif %}
+
+                                <!-- STEP 2: AFTER CLICKING COMING -->
+                                {% if row[4] == 'Coming' %}
+                                    <a href="/collect/{{ row[0] }}" class="btn btn-primary btn-sm">
+                                        Mark Collected
+                                    </a>
+                                {% endif %}
+
+                                <!-- OPTIONAL INFO -->
+                                {% if row[3] == 'Pending' %}
+                                    <span class="badge bg-warning text-dark">
+                                        Waiting for Approval
+                                    </span>
+                                {% endif %}
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            <!-- BACK BUTTON -->
+            <div class="text-center mt-3">
+
+                {% if session.get('role') == 'admin' %}
+                    <a href="/admin" class="btn btn-dark">Back to Admin</a>
+                {% else %}
+                    <a href="/" class="btn btn-dark">Back</a>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

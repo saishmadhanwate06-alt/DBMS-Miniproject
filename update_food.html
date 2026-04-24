@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Food</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card shadow p-4">
+        <h3 class="mb-4 text-center">Update Food Details</h3>
+
+        <form method="POST">
+
+            <!-- Quantity -->
+            <label class="form-label">Quantity</label>
+            <input type="number" name="qty" value="{{data[2]}}" class="form-control" required>
+
+            <br>
+
+            <!-- Status -->
+            <label class="form-label">Status</label>
+            <select name="status" class="form-control">
+                <option value="Available" {% if data[5]=='Available' %}selected{% endif %}>Available</option>
+                <option value="Collected" {% if data[5]=='Collected' %}selected{% endif %}>Collected</option>
+            </select>
+
+            <br>
+
+            <!-- Button -->
+            <button class="btn btn-success w-100">Update</button>
+
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
