@@ -47,8 +47,10 @@ Food-Waste-System/
 1️⃣ Clone Repository
 git clone https://github.com/Sakshig131/food-waste-system.git
 cd food-waste-system
+
 2️⃣ Install Dependencies
 pip install flask mysql-connector-python
+
 3️⃣ Setup Database
 Create MySQL database:
 
@@ -79,6 +81,7 @@ CREATE TABLE requests (
     status VARCHAR(20),
     arrival_status VARCHAR(20)
 );
+
 5️⃣ Configure Database
 Open db_config.py and update:
 
@@ -86,6 +89,7 @@ host="localhost",
 user="root",
 password="your_password",
 database="food_waste"
+
 6️⃣ Run Application
 python app.py
 Open in browser:
@@ -94,6 +98,7 @@ http://127.0.0.1:5000
 🔐 Default Roles
 Admin: manually insert in DB with role = 'admin'
 User: register via UI
+
 📊 System Flow
 Admin adds food
 User views food
@@ -102,10 +107,12 @@ Admin approves request
 User clicks "I am Coming"
 User collects food
 Status updates
+
 🎯 Future Enhancements
 Email/SMS notification
 Location-based filtering
 Image upload for food
 Mobile app integration
+
 👩‍💻 Author
 Saishma Dhanwate
